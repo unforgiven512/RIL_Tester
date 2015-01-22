@@ -13,6 +13,8 @@ import android.widget.EditText;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Method;
 
+// this is a comment
+
 
 public class MainActivity extends ActionBarActivity {
 
