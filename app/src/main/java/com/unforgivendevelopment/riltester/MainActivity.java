@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 
@@ -59,7 +60,14 @@ public class MainActivity extends ActionBarActivity {
             TelephonyManager tmInstance = (TelephonyManager) getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
             Class tm = Class.forName(tmInstance.getClass().getName());
 
-            //Class[] methodParameters = new Class[]{byte[].class, byte[].class};
+
+            Method[] methods = tm.getMethods();
+            for(Method m : methods ) { System.out.println( "Found a method: " + m ); }
+
+            //Class[] methodParameters = { byte[].class, byte[].class };
+            //Class[] methodParameters = { Array.newInstance(byte.class, 0).getClass(), Array.newInstance(byte.class, 0).getClass() };
+            Class[] methodParameters = { Array.newInstance(byte[].class, 0).getClass(), Array.newInstance(byte[].class, 0).getClass() };
+
 
             byte[] input = { (byte) 0x00, (byte) 0x43 };// your input goes here
 
@@ -67,9 +75,13 @@ public class MainActivity extends ActionBarActivity {
             String oemOutputStr = new String("");
 
             Object[] params = new Object[]{input, oemResponse};
-            Method method = tm.getClass().getDeclaredMethod("invokeOemRilRequestRaw", byte[].class, byte[].class);
+            //Method method = tm.getClass().getDeclaredMethod("invokeOemRilRequestRaw", byte[].class, byte[].class);
+            Method method = tm.getClass().getDeclaredMethod("invokeOemRilRequestRaw", methodParameters);
+
             //int result = (Integer) method.invoke(tm, params);
             int result = (Integer)method.invoke(tmInstance, params);
+
+
 
             int size = oemResponse.length;
 
