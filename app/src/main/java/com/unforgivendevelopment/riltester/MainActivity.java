@@ -67,8 +67,9 @@ public class MainActivity extends ActionBarActivity {
             String oemOutputStr = new String("");
 
             Object[] params = new Object[]{input, oemResponse};
-            Method method = tm.getClass().getDeclaredMethod("invokeOemRilRequestRaw", Byte.TYPE, Byte.TYPE);
-            int result = (Integer) method.invoke(tm, params);
+            Method method = tm.getClass().getDeclaredMethod("invokeOemRilRequestRaw", byte[].class, byte[].class);
+            //int result = (Integer) method.invoke(tm, params);
+            int result = (Integer)method.invoke(tmInstance, params);
 
             int size = oemResponse.length;
 
